@@ -1,0 +1,56 @@
+  sensor:
+  - platform: rest
+    name: pws_report
+    json_attributes:
+      - observations
+    value_template: '{{ value_json["observations"][0]["obsTimeLocal"].title() }}'
+    resource: !secret wunderground_url
+    scan_interval: 300
+
+
+  - platform: template
+    sensors:
+      pws_location: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].neighborhood }}'
+        friendly_name: Locatie
+      pws_station_id: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].stationID }}'
+        friendly_name: Staion ID
+      pws_type: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].softwareType }}'
+        friendly_name: Station Type
+      pws_wind_dir: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].winddir }}'
+        friendly_name: Wind Richting
+        unit_of_measurement: "°"
+      pws_wind_gust: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].windGust }}'  
+        friendly_name:  Wind Gust  
+      pws_wind_speed: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.windSpeed }}'
+        friendly_name: Wind Snelheid
+        unit_of_measurement: "KPH"
+      pws_humidity: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].humidity }}'
+        friendly_name: Luchtvochtigheid
+        unit_of_measurement: "%"
+      pws_precip_total: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.precipTotal }}'
+        friendly_name: Neerslag (totaal)
+        unit_of_measurement: "mm"
+      pws_precip_rate: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.precipRate }}'
+        friendly_name: Neerslag
+        unit_of_measurement: "mm"
+      pws_temp: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.temp }}'
+        friendly_name: Temperatuur
+        unit_of_measurement: "°C"
+      pws_solar: 
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].solarRadiation }}'
+        friendly_name: "Zoninstraling"
+        unit_of_measurement: "Watt/m²"
+      pws_barometric:
+        value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.pressure }}'
+        friendly_name: Luchtdruk
+        unit_of_measurement: "mbar"
