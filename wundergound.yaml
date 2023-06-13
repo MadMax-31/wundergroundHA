@@ -1,4 +1,4 @@
-  sensor:
+sensor: # remove if other sensors are defined
   - platform: rest
     name: pws_report
     json_attributes:
